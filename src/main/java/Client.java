@@ -3,8 +3,6 @@ import io.grpc.stub.StreamObserver;
 import rpcstubs.*;
 import rpcstubs.Void;
 import rpcstubs.Empty;
-
-import java.net.SocketException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -232,7 +230,14 @@ public class Client {
 
     }
     public static void main(String[] args) {
-       Client client = new Client("192.168.1.250", 5050);
+        String configIP = "192.168.1.250";
+        int configPort = 5050;
+
+        if(args.length >0){
+            configIP = args[0];
+            configPort = Integer.parseInt(args[1]);
+        }
+       Client client = new Client(configIP,configPort);
        client.menu();
     }
 }
