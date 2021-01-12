@@ -43,10 +43,6 @@ public class Client {
         while(estado!= 99){
             switch(estado){
                 default: break;
-                case 10:
-                    showMenuWaitingList();
-                    this.estado = this.scanner.nextInt();
-                    break;
 
                 case 0: // ----------- Menu Before Connection
                     showMenuBeforeConn();
@@ -181,7 +177,8 @@ public class Client {
 
                         case EMPTY:
                             obteveLigacao = false;
-                            estado = 10;
+                            System.out.println("No Server Avaliable...Placed on Waiting List...");
+                            estado = 2;
                             break;
 
                         case SERVERINFO:
@@ -198,7 +195,6 @@ public class Client {
                 @Override
                 public void onError(Throwable throwable) {
                     System.err.println("Error Connectiong to Configuration Service");
-                    showMenuBeforeConn();
                     estado = 0;
                 }
 
@@ -219,14 +215,6 @@ public class Client {
         System.out.println("Choose an Option?");
     }
 
-    private void showMenuWaitingList(){
-        System.out.println();
-        System.out.println("    MENU");
-        System.out.println("No Server Avaliable.. Placed on Waiting List..");
-        System.out.println("99 - Exit");
-        System.out.println();
-        System.out.println("Choose an Option?");
-    }
 
     private void showMenuAfterConn(){
         System.out.println();
