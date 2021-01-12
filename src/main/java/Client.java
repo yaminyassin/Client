@@ -46,7 +46,7 @@ public class Client {
 
                 case 0: // ----------- Menu Before Connection
                     showMenuBeforeConn();
-                    this.estado = this.scanner.nextInt();
+                    escolhaEstado();
 
                     if(this.estado != 1 && this.estado != 99 ){
                         System.out.println("Invalid Option!");
@@ -76,26 +76,22 @@ public class Client {
                     break;
 
                 case 3: // ----------- MENU AFTER CONNECTION
-                    try{
-                        storageChannel = ManagedChannelBuilder
-                                .forAddress(serverIP, serverPort)
-                                .usePlaintext()
-                                .build();
 
-                        storageBStub =  StorageServiceGrpc
-                                .newBlockingStub(storageChannel);
+                    storageChannel = ManagedChannelBuilder
+                            .forAddress(serverIP, serverPort)
+                            .usePlaintext()
+                            .build();
 
-                        showMenuAfterConn();
+                    storageBStub =  StorageServiceGrpc
+                            .newBlockingStub(storageChannel);
 
-                        this.estado = this.scanner.nextInt();
-                        if(this.estado != 4 && this.estado != 5 && this.estado != 99 ){
-                            System.out.println("Invalid Option!");
-                            this.estado = 3;
-                        }
-                    }catch (InputMismatchException e){
-                        System.err.println("Input Mismatch");
+                    showMenuAfterConn();
+                    escolhaEstado();
+
+                    if(this.estado != 4 && this.estado != 5 && this.estado != 99 ){
+                        System.out.println("Invalid Option!");
+                        this.estado = 3;
                     }
-
                     break;
 
                 case 4:  // ----------- WRITE
@@ -215,7 +211,6 @@ public class Client {
         System.out.println("Choose an Option?");
     }
 
-
     private void showMenuAfterConn(){
         System.out.println();
         System.out.println("    MENU");
@@ -226,8 +221,18 @@ public class Client {
         System.out.print("Choose -> ");
     }
 
+    private void escolhaEstado(){
+        try{
+            this.estado = this.scanner.nextInt();
+        }catch (InputMismatchException e){
+            System.err.println("Input Mismatch");
+            this.scanner = new Scanner(System.in);
+            this.estado = 0;
+        }
+
+    }
     public static void main(String[] args) {
-        Client client = new Client("192.168.1.250", 5050);
-        client.menu();
+       Client client = new Client("192.168.1.250", 5050);
+       client.menu();
     }
 }
