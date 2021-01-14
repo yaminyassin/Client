@@ -1,3 +1,5 @@
+package Client;
+
 import io.grpc.*;
 import io.grpc.stub.StreamObserver;
 import rpcstubs.*;
